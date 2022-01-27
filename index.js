@@ -7,7 +7,10 @@ const CLIENT_ID = process.env['client_id'];
 
 const commands = [{
   name: 'ping',
-  description: 'Replies with Pong!'
+  description: 'Vraća Mirkov ping'
+},{
+  name: 'sun',
+  description: 'Šalje podatke o trenutnoj Sunčevoj aktivnosti'
 }]; 
 
 const rest = new REST({ version: '9' }).setToken(token);
