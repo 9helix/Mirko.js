@@ -2,8 +2,6 @@ const { Client, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const token = process.env['token'];
 const keepAlive = require('./server');
-var server_num=0
-const activities = ["discord.js", `on ${server_num} servers`, "/ command", "Anime"];
 var counter = 0;
 
 function activityCycle() {
@@ -23,7 +21,7 @@ function activityCycle() {
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    server_num=client.guilds.cache.size;
+    const activities = ["discord.js", `on ${client.guilds.cache.size} servers`, "/ command", "Anime"];
     setTimeout(activityCycle, 0);
 });
 
