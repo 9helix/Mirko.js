@@ -4,7 +4,6 @@ const { Routes } = require('discord-api-types/v9');
 const token = process.env['token'];
 const GUILD_ID = process.env['guild_id'];
 const CLIENT_ID = process.env['client_id'];
-const delay=30; 
 
 const commands = [{
   name: 'ping',
