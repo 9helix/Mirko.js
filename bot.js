@@ -2,11 +2,11 @@ const axios = require("axios");
 const request = require("request");
 
 const { Client, Intents } = require("discord.js");
-
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+
 const token = process.env["token"];
+const admin_id = process.env["admin_id"];
 const keepAlive = require("./server");
-const admin_id = process.env['admin_id'];
 let counter = 0;
 
 client.on("ready", () => {
@@ -59,7 +59,7 @@ client.on("interactionCreate", async (interaction) => {
                     },
                 }
             )
-            .then(async function(response) {
+            .then(async function (response) {
                 data = await response.data;
             });
         //console.log(data["0"]["data"])
@@ -82,50 +82,55 @@ client.on("interactionCreate", async (interaction) => {
                 },
             ],
         });
-
     } else if (interaction.commandName === "moon") {
-        request("https://www.timeanddate.com/moon/phases/", (error, response, html) => {
-            if (!error && response.statusCode == 200) {
-                const cheerio = require("cheerio");
-                const $ = cheerio.load(html);
+        request(
+            "https://www.timeanddate.com/moon/phases/",
+            (error, response, html) => {
+                if (!error && response.statusCode == 200) {
+                    const cheerio = require("cheerio");
+                    const $ = cheerio.load(html);
 
-                const moon = $("#qlook").text();
-                //console.log(moon)   
-                const perc = moon.substring(6, moon.indexOf('%') + 1);
-                const phase = moon.substring(moon.indexOf('%') + 1);
-                let status = ""
-                //console.log(perc, phase)
-                if (phase.indexOf('Waxing') != -1) {
-                    status = 'Mjesec raste.'
-                } else if (phase.indexOf('Waning') != -1) {
-                    status = 'Mjesec pada.'
-                } else if (phase.indexOf('Full') != -1) {
-                    status = 'Pun mjesec.'
-                } else if (phase.indexOf('New') != -1) {
-                    status = 'Mlađak.'
-                } else if (phase.indexOF('First') != -1) {
-                    status = 'Prva četvrt.'
-                } else if (phase.indexOf('Third') != -1) {
-                    status = 'Treća četvrt.'
+                    const moon = $("#qlook").text();
+                    //console.log(moon)
+                    const perc = moon.substring(6, moon.indexOf("%") + 1);
+                    const phase = moon.substring(moon.indexOf("%") + 1);
+                    let status = "";
+                    //console.log(perc, phase)
+                    if (phase.indexOf("Waxing") != -1) {
+                        status = "Mjesec raste.";
+                    } else if (phase.indexOf("Waning") != -1) {
+                        status = "Mjesec pada.";
+                    } else if (phase.indexOf("Full") != -1) {
+                        status = "Pun mjesec.";
+                    } else if (phase.indexOf("New") != -1) {
+                        status = "Mlađak.";
+                    } else if (phase.indexOf("First") != -1) {
+                        status = "Prva četvrt.";
+                    } else if (phase.indexOf("Third") != -1) {
+                        status = "Treća četvrt.";
+                    }
+                    interaction.reply({
+                        embeds: [
+                            {
+                                title: "Moon Status",
+                                description:
+                                    "Svjetlina Mjeseca: **" +
+                                    perc +
+                                    "**\n" +
+                                    status,
+                                thumbnail: {
+                                    url: "https://i.ibb.co/wNFx6PN/full-moon.png",
+                                },
+                                color: "BLUE",
+                            },
+                        ],
+                    });
+                } else {
+                    interaction.replay("Pokušaj ponovno kasnije...");
                 }
-                interaction.reply({
-                    embeds: [
-                        {
-                            title: "Moon Status",
-                            description:
-                                "Svjetlina Mjeseca: **" +
-                                perc + "**\n" + status,
-                            thumbnail: { url: "https://i.ibb.co/wNFx6PN/full-moon.png" },
-                            color: "BLUE",
-                        },
-                    ],
-                });
-            } else{
-                interaction.replay('Pokušaj ponovno kasnije...')
             }
-
-        });
-    } 
+        );
+    }
 });
 
 keepAlive();
