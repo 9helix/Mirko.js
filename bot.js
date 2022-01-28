@@ -6,14 +6,15 @@ const { Client, Intents } = require("discord.js");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const token = process.env["token"];
 const keepAlive = require("./server");
-var counter = 0;
+const admin_id = process.env['admin_id'];
+let counter = 0;
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
     const activities = [
         "discord.js",
         `on ${client.guilds.cache.size} servers`,
-        "for / command",
+        "/ command",
         "Anime",
     ];
     function activityCycle() {
@@ -81,10 +82,7 @@ client.on("interactionCreate", async (interaction) => {
                 },
             ],
         });
-    } else if (interaction.commandName === "reboot") {
-        interaction.reply('Resetting...')
-            .then(msg => client.destroy())
-            .then(() => client.login(token));
+
     } else if (interaction.commandName === "moon") {
         request("https://www.timeanddate.com/moon/phases/", (error, response, html) => {
             if (!error && response.statusCode == 200) {
@@ -118,7 +116,7 @@ client.on("interactionCreate", async (interaction) => {
                                 "Svjetlina Mjeseca: **" +
                                 perc + "**\n" + status,
                             thumbnail: { url: "https://i.ibb.co/wNFx6PN/full-moon.png" },
-                            color: "DARK_BLUE",
+                            color: "BLUE",
                         },
                     ],
                 });
@@ -127,10 +125,7 @@ client.on("interactionCreate", async (interaction) => {
             }
 
         });
-
-
-
-    }
+    } 
 });
 
 keepAlive();
