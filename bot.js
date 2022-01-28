@@ -120,12 +120,12 @@ client.on("interactionCreate", async (interaction) => {
                         },
                     ],
                 });
-            } else{
+            } else {
                 interaction.replay('Pokušaj ponovno kasnije...')
             }
 
         });
-    } 
+    }
 });
 
 keepAlive();
